@@ -1,0 +1,9 @@
+{
+  "label": "Module 1: The Robotic Nervous System",
+  "position": 1,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn ROS 2 fundamentals: nodes, topics, services, and robot control middleware"
+  }
+}
