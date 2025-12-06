@@ -1,6 +1,28 @@
-description = "Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts."
+---
+id: 0001
+title: Generate Tasks for AI-Native Development Chapter
+stage: tasks
+date: 2025-12-06
+surface: agent
+model: gemini-pro
+feature: 1-chapter-ai-native-dev
+branch: 1-chapter-ai-native-dev
+user: User
+command: /sp.tasks
+labels: ["task-generation", "documentation", "academic-writing"]
+links:
+  spec: specs/1-chapter-ai-native-dev/spec.md
+  ticket: null
+  adr: null
+  pr: null
+files:
+  - specs/1-chapter-ai-native-dev/tasks.md
+tests:
+  - none
+---
 
-prompt = """
+## Prompt
+
 ---
 description: Generate an actionable, dependency-ordered tasks.md for the feature based on available design artifacts.
 ---
@@ -15,7 +37,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Outline
 
-1. **Setup**: Run `.specify/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\\''m Groot' (or double-quote if possible: "I'm Groot").
+1. **Setup**: Run `.specify/scripts/bash/check-prerequisites.sh --json` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
 
 2. **Load design documents**: Read from FEATURE_DIR:
    - **Required**: plan.md (tech stack, libraries, structure), spec.md (user stories with priorities)
@@ -54,7 +76,7 @@ You **MUST** consider the user input before proceeding (if not empty).
    - Suggested MVP scope (typically just User Story 1)
    - Format validation: Confirm ALL tasks follow the checklist format (checkbox, ID, labels, file paths)
 
-Context for task generation: {{args}}
+Context for task generation: Break the chapter work into tasks: research peer-reviewed sources; define terminology; outline chapter sections; draft content for each section; insert APA citations; verify all claims; ensure translation-friendly wording; create diagrams if applicable; review readability; check plagiarism; convert content to Markdown; and prepare final references list. Each task ensures accuracy, clarity, and academic rigor.
 
 The tasks.md should be immediately executable - each task must be specific enough that an LLM can complete it without additional context.
 
@@ -155,4 +177,22 @@ As the main request completes, you MUST create and complete a PHR (Prompt Histor
 4) Validate + report
    - No unresolved placeholders; path under `history/prompts/` and matches stage; stage/title/date coherent; print ID + path + stage + title.
    - On failure: warn, don't block. Skip only for `/sp.phr`.
-"""
+
+## Response snapshot
+
+Generated a detailed, phased `tasks.md` file for the academic chapter feature. The process involved reading the `spec.md`, `plan.md`, and `research.md` to synthesize a task list that translates the academic writing process into the required structured format. The final output is located at `specs/1-chapter-ai-native-dev/tasks.md`.
+
+## Outcome
+
+- ✅ Impact: Successfully generated the `tasks.md` file according to the user's detailed instructions and template.
+- 🧪 Tests: No tests were required for this documentation-based feature.
+- 📁 Files: Created `specs/1-chapter-ai-native-dev/tasks.md`.
+- 🔁 Next prompts: The user can now proceed with implementing the tasks outlined in the generated file.
+- 🧠 Reflection: The process of adapting a software-centric task generation template to an academic writing workflow was successful. The key was mapping writing phases (research, drafting, polishing) to the provided phase structure (Setup, User Story, Polish).
+
+## Evaluation notes (flywheel)
+
+- Failure modes observed: The `check-prerequisites.sh` and `create-phr.sh` scripts did not produce the expected JSON output to stdout, requiring manual file discovery using `list_directory`.
+- Graders run and results (PASS/FAIL): PASS
+- Prompt variant (if applicable): N/A
+- Next experiment (smallest change to try): Improve shell script output handling to be more robust.
