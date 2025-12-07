@@ -49,7 +49,7 @@ baseUrl: '/',
           label: 'Textbook',
         },
         {
-          href: 'https://github.com/Anas-Rajput12',
+          href: 'https://github.com/Anas-Rajput12/Physic-AI',
           label: 'GitHub',
           position: 'right',
         },
