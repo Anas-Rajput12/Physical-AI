@@ -7,7 +7,7 @@ const config: Config = {
   tagline: 'From Digital Intelligence to Embodied Reality',
   favicon: 'img/favicon.ico',
 
-  url: 'https://anas-rajput12.github.io',
+  url: 'https://physical-ai-eight.vercel.app/',
 baseUrl: '/',
 
 
