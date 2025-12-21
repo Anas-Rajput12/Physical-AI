@@ -1,55 +1,48 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version change: 0.1.0 → 1.0.0
+- Modified principles: All principles were newly created for the Physical AI & Humanoid Robotics book project
+- Added sections: Core Principles (6), Target Audience & Educational Standards, Technical Content Standards, Development Workflow
+- Removed sections: None
+- Templates requiring updates: ✅ Updated .specify/memory/constitution.md
+- Follow-up TODOs: None
+-->
+# Physical AI & Humanoid Robotics Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### Educational Excellence
+All content must be accessible to senior undergraduate AI students; Explanations must be clear and progressive, building from fundamentals to advanced concepts; Every chapter must include learning objectives, key takeaways, and exercises with solutions.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### Technical Accuracy & Practical Relevance
+Content must be factually accurate with real-world examples and applications; All concepts must be validated through practical implementation or simulation; Theory must be grounded in current industry practices and established research.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### Open Source & Accessibility
+Preference for open-source tools and platforms (ROS 2, Gazebo, Unity Community Edition, NVIDIA Isaac Gym); All code examples must be freely available and well-documented; Content must be deployable via GitHub Pages using Docusaurus without proprietary dependencies.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### Visual Learning Enhancement
+Diagrams, illustrations, and visual aids must be integrated throughout all chapters; All complex concepts must be accompanied by visual representations; Diagrams-in-text approach to enhance comprehension of physical AI and robotics concepts.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### Modular & Extensible Content
+Each chapter must be modular and self-contained where possible; Content must be structured to allow easy updates as technology evolves; Clear inter-chapter dependencies and pathways for different learning tracks.
 
-### [PRINCIPLE_6_NAME]
+### Evidence-Based Approach
+No unsupported claims, marketing language, or fluff content; All assertions must be backed by research papers, official documentation, or proven implementations; Critical evaluation of technologies and approaches must be emphasized.
 
+## Target Audience & Educational Standards
 
-[PRINCIPLE__DESCRIPTION]
+Content is specifically designed for senior undergraduate AI students with foundational knowledge in mathematics, programming, and basic robotics. Material must bridge the gap between theoretical concepts and practical implementation in physical AI, embodied intelligence, and humanoid robotics. Each section must include prerequisites, estimated study time, and assessment rubrics aligned with university-level learning outcomes.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Technical Content Standards
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+All content must incorporate the specified technologies: ROS 2 for robotics middleware, Gazebo for simulation environments, Unity for visualization and prototyping, NVIDIA Isaac for GPU-accelerated robotics, and Vision-Language-Action (VLA) models for embodied AI. Code examples must be tested and verified for accuracy, with clear explanations of implementation details and potential pitfalls.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Content creation follows an iterative process: outline → initial draft → technical review → student testing → revision → publication. All contributions must undergo peer review by domain experts. Documentation must be maintained in Markdown format compatible with Docusaurus, with automated build and deployment to GitHub Pages.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution governs all content creation and technical decisions for the "Physical AI & Humanoid Robotics" book project. All contributors must comply with these principles. Amendments require documented justification and approval from project maintainers. Content reviews must verify compliance with educational standards and technical accuracy.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2025-12-17 | **Last Amended**: 2025-12-17

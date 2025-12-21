@@ -1,0 +1,256 @@
+# Quickstart: Physical AI & Humanoid Robotics Book
+
+## Prerequisites
+- Node.js 18 or higher
+- npm or yarn package manager
+- Git for version control
+- Basic understanding of Markdown syntax
+
+## Setup Instructions
+
+### 1. Clone and Initialize
+```bash
+# Create a new Docusaurus project
+npx create-docusaurus@latest my-physical-ai-book classic
+
+# Navigate to project directory
+cd my-physical-ai-book
+
+# Initialize git repository
+git init
+git add .
+git commit -m "Initial Docusaurus project setup"
+```
+
+### 2. Install Additional Dependencies
+```bash
+# Install diagramming libraries for architecture diagrams
+npm install @docusaurus/theme-mermaid
+
+# Install additional plugins if needed
+npm install @docusaurus/module-type-aliases
+```
+
+### 3. Configure Docusaurus
+Update `docusaurus.config.js` with the following configuration:
+
+```javascript
+// @ts-check
+import { themes as prismThemes } from 'prism-react-renderer';
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+  title: 'Physical AI & Humanoid Robotics',
+  tagline: 'A comprehensive course for senior undergraduate AI students',
+  favicon: 'img/favicon.ico',
+
+  // Set the production url of your site here
+  url: 'https://your-username.github.io',
+  // Set the /<baseUrl>/ pathname under which your site is served
+  // For GitHub Pages, this is usually your repo name
+  baseUrl: '/my-physical-ai-book',
+
+  // GitHub pages deployment config
+  organizationName: 'your-username', // Usually your GitHub org/user name
+  projectName: 'my-physical-ai-book', // Usually your repo name
+  deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
+
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
+
+  // Even if you don't use internationalization, you can use this field to set
+  // useful metadata like html lang. For example, if your site is Chinese, you
+  // may want to replace "en" with "zh-Hans".
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en'],
+  },
+
+  presets: [
+    [
+      'classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
+        docs: {
+          sidebarPath: './sidebars.js',
+          // Set to false to disable the docs plugin
+          routeBasePath: '/',
+          editUrl: 'https://github.com/your-username/my-physical-ai-book/edit/main/',
+        },
+        blog: false, // Disable blog for this educational book
+        theme: {
+          customCss: './src/css/custom.css',
+        },
+      }),
+    ],
+  ],
+
+  themeConfig:
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    ({
+      // Replace with your project's social card
+      image: 'img/docusaurus-social-card.jpg',
+      navbar: {
+        title: 'Physical AI & Humanoid Robotics',
+        logo: {
+          alt: 'Physical AI Logo',
+          src: 'img/logo.svg',
+        },
+        items: [
+          {
+            type: 'docSidebar',
+            sidebarId: 'tutorialSidebar',
+            position: 'left',
+            label: 'Book',
+          },
+          {
+            href: 'https://github.com/your-username/my-physical-ai-book',
+            label: 'GitHub',
+            position: 'right',
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Content',
+            items: [
+              {
+                label: 'Introduction',
+                to: '/docs/intro',
+              },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Stack Overflow',
+                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              },
+              {
+                label: 'Discord',
+                href: 'https://discordapp.com/invite/docusaurus',
+              },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              {
+                label: 'GitHub',
+                href: 'https://github.com/your-username/my-physical-ai-book',
+              },
+            ],
+          },
+        ],
+        copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics Course. Built with Docusaurus.`,
+      },
+      prism: {
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+      },
+      // Enable detailed bundle analytics for performance optimization
+      // algolia: {
+      //   // The application ID provided by Algolia
+      //   appId: 'YOUR_APP_ID',
+      //   // Public API key: it is safe to commit it
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'YOUR_INDEX_NAME',
+      // },
+    }),
+};
+
+export default config;
+```
+
+### 4. Create Sidebar Navigation
+Create or update `sidebars.js`:
+
+```javascript
+// @ts-check
+
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const sidebars = {
+  tutorialSidebar: [
+    {
+      type: 'autogenerated',
+      dirName: '.',
+    },
+  ],
+};
+
+export default sidebars;
+```
+
+### 5. Create the Introduction Chapter
+Create `docs/intro.md`:
+
+```markdown
+---
+sidebar_position: 1
+---
+
+# Introduction to Physical AI & Humanoid Robotics
+
+Welcome to the Physical AI & Humanoid Robotics course. This comprehensive book is designed for senior undergraduate AI students who want to understand the intersection of artificial intelligence and robotics.
+
+## Learning Outcomes
+
+By the end of this course, you will be able to:
+
+- Understand the fundamentals of ROS 2 as a robotic nervous system
+- Create and utilize digital twins using Gazebo and Unity
+- Implement AI algorithms for robotic control using NVIDIA Isaac
+- Integrate vision, language, and action systems (VLA) in robotic platforms
+- Design and implement an autonomous humanoid robot
+
+## Prerequisites
+
+Before starting this course, you should have:
+
+- Basic programming skills (Python preferred)
+- Understanding of linear algebra and calculus
+- Familiarity with basic robotics concepts
+- Access to a computer capable of running simulation software
+
+## Course Structure
+
+This book is organized into six main chapters:
+
+1. **ROS 2 Robotic Nervous System** - Understanding robotic communication frameworks
+2. **Digital Twin (Gazebo & Unity)** - Creating virtual environments for robot testing
+3. **AI-Robot Brain (NVIDIA Isaac)** - Implementing intelligent robot behaviors
+4. **Vision-Language-Action (VLA)** - Connecting perception to action
+5. **Capstone Project: Autonomous Humanoid** - Integrating all concepts into a complete system
+
+Each chapter includes concepts, architecture diagrams, hands-on examples, and mini exercises to reinforce your learning.
+```
+
+### 6. Build and Test
+```bash
+# Start development server
+npm run start
+
+# Build for production
+npm run build
+
+# Deploy to GitHub Pages
+npm run deploy
+```
+
+## Using Claude Code for Content Creation
+
+1. **Content Creation**: Use Claude Code to draft chapter content, ensuring technical accuracy and educational excellence
+2. **Diagram Generation**: Use Claude Code to create architecture diagrams in Mermaid or ASCII format
+3. **Code Examples**: Generate and verify hands-on examples for each chapter
+4. **Exercise Creation**: Develop mini exercises with solutions and hints
+5. **Quality Assurance**: Review content for adherence to the Physical AI & Humanoid Robotics Constitution
+
+## Deployment to GitHub Pages
+
+1. Ensure your repository is hosted on GitHub
+2. Configure GitHub Actions for automatic deployment (see deployment section in docusaurus.config.js)
+3. Push your changes to the main branch
+4. The site will be automatically deployed to `https://your-username.github.io/my-physical-ai-book/`

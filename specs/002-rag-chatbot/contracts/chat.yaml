@@ -1,0 +1,108 @@
+# API Contract: Chat Endpoints
+
+## POST /api/chat
+
+### Description
+Process a user question against the full knowledge base and return a contextual answer.
+
+### Request
+```json
+{
+  "question": "string (required)",
+  "session_id": "string (optional, for maintaining conversation context)",
+  "page_context": {
+    "url": "string (optional, current page URL)",
+    "title": "string (optional, current page title)",
+    "section": "string (optional, current section)"
+  }
+}
+```
+
+### Response
+```json
+{
+  "response_id": "string",
+  "answer": "string",
+  "sources": [
+    {
+      "document_id": "string",
+      "chunk_id": "string",
+      "content_snippet": "string",
+      "page_url": "string"
+    }
+  ],
+  "session_id": "string",
+  "timestamp": "ISO 8601 datetime"
+}
+```
+
+### Error Responses
+- `400 Bad Request`: Invalid request format
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Processing error
+
+---
+
+## POST /api/chat/selection
+
+### Description
+Process a question based on user-selected text from the current page.
+
+### Request
+```json
+{
+  "question": "string (required)",
+  "selected_text": "string (required)",
+  "session_id": "string (optional)",
+  "page_context": {
+    "url": "string (required)",
+    "title": "string (optional)"
+  }
+}
+```
+
+### Response
+```json
+{
+  "response_id": "string",
+  "answer": "string",
+  "sources": [
+    {
+      "document_id": "string",
+      "chunk_id": "string",
+      "content_snippet": "string",
+      "page_url": "string"
+    }
+  ],
+  "session_id": "string",
+  "timestamp": "ISO 8601 datetime"
+}
+```
+
+### Error Responses
+- `400 Bad Request`: Invalid request format
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Processing error
+
+---
+
+## GET /api/health
+
+### Description
+Health check endpoint to verify service availability.
+
+### Response
+```json
+{
+  "status": "healthy",
+  "timestamp": "ISO 8601 datetime",
+  "services": {
+    "vector_db": "available",
+    "llm_api": "available",
+    "postgres": "available"
+  }
+}
+```
+
+### Error Responses
+- `503 Service Unavailable`: One or more services unavailable

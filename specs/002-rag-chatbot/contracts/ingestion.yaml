@@ -1,0 +1,122 @@
+# API Contract: Ingestion Endpoints
+
+## POST /api/ingest
+
+### Description
+Ingest new documents into the knowledge base.
+
+### Request
+```json
+{
+  "documents": [
+    {
+      "id": "string (optional, system-generated if not provided)",
+      "title": "string (required)",
+      "content": "string (required, the full document content)",
+      "source_url": "string (optional, URL where document was sourced from)",
+      "metadata": {
+        "author": "string (optional)",
+        "version": "string (optional)",
+        "tags": ["string"] (optional)
+      }
+    }
+  ],
+  "options": {
+    "chunk_size": "integer (optional, default 500)",
+    "overlap": "integer (optional, default 50)",
+    "reprocess": "boolean (optional, default false - whether to reprocess existing documents)"
+  }
+}
+```
+
+### Response
+```json
+{
+  "job_id": "string",
+  "status": "processing",
+  "documents_processed": "integer",
+  "estimated_completion": "ISO 8601 datetime",
+  "timestamp": "ISO 8601 datetime"
+}
+```
+
+### Error Responses
+- `400 Bad Request`: Invalid document format
+- `422 Unprocessable Entity`: Documents failed validation
+- `500 Internal Server Error`: Processing error
+
+---
+
+## GET /api/ingest/status/{job_id}
+
+### Description
+Check the status of an ingestion job.
+
+### Response
+```json
+{
+  "job_id": "string",
+  "status": "string (pending|processing|completed|failed)",
+  "progress": {
+    "total_documents": "integer",
+    "processed_documents": "integer",
+    "failed_documents": "integer",
+    "percentage": "float"
+  },
+  "timestamp": "ISO 8601 datetime",
+  "details": "string (optional, additional details if failed)"
+}
+```
+
+### Error Responses
+- `404 Not Found`: Job ID not found
+- `500 Internal Server Error`: Processing error
+
+---
+
+## GET /api/documents
+
+### Description
+List all documents in the knowledge base.
+
+### Response
+```json
+{
+  "documents": [
+    {
+      "id": "string",
+      "title": "string",
+      "source_url": "string",
+      "chunk_count": "integer",
+      "created_at": "ISO 8601 datetime",
+      "updated_at": "ISO 8601 datetime",
+      "ingestion_status": "string (pending|processing|completed|failed)"
+    }
+  ],
+  "total_count": "integer",
+  "timestamp": "ISO 8601 datetime"
+}
+```
+
+### Error Responses
+- `500 Internal Server Error`: Processing error
+
+---
+
+## DELETE /api/ingest/{document_id}
+
+### Description
+Remove a document from the knowledge base.
+
+### Response
+```json
+{
+  "document_id": "string",
+  "status": "removed",
+  "timestamp": "ISO 8601 datetime"
+}
+```
+
+### Error Responses
+- `404 Not Found`: Document ID not found
+- `500 Internal Server Error`: Processing error
