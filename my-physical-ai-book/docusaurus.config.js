@@ -117,10 +117,10 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
+            sidebarId: 'docs',
             label: 'Book',
           },
+
           {
             type: 'html',
             position: 'right',

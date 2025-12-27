@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(set MOCK_MODE=true)",
+      "Bash(python start_backend.py)"
+    ]
+  }
+}
