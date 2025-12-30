@@ -19,7 +19,6 @@ const config = {
   projectName: 'AI-Hackathon',
   deploymentBranch: 'gh-pages',
 
-  // ✅ Strict but correct
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
@@ -30,6 +29,7 @@ const config = {
     },
   ],
 
+  // ✅ FIXED headTags (attributes REQUIRED in Docusaurus v3)
   headTags: [
     {
       tagName: 'link',
@@ -41,6 +41,9 @@ const config = {
     },
     {
       tagName: 'script',
+      attributes: {
+        type: 'text/javascript',
+      },
       innerHTML: `
         document.addEventListener('DOMContentLoaded', function() {
           const languageSwitcher = document.getElementById('language-switcher');
@@ -72,7 +75,7 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
 
-          // ✅ Docs live at site root
+          // ✅ Docs served at root
           routeBasePath: '/',
 
           editUrl: 'https://github.com/Anas-Rajput12/AI-Hackathon',
@@ -137,7 +140,7 @@ const config = {
           items: [
             {
               label: 'Book',
-              to: '/intro', // ✅ correct path
+              to: '/intro', // ✅ correct because routeBasePath = '/'
             },
           ],
         },
