@@ -9,8 +9,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://Anas-Rajput12.github.io',
-  baseurl: '/AI-Hackathon',
+  url: 'https://your-username.github.io',
+  // Set the /<baseUrl>/ pathname under which your site is served
+  // For GitHub Pages, this is usually your repo name
+  baseUrl: '/my-physical-ai-book',
 
 
   // GitHub pages deployment config
