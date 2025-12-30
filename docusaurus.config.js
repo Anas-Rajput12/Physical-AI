@@ -9,7 +9,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-username.github.io',
+  url: 'https://Anas-Rajput12.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub Pages, this is usually your repo name
   baseUrl: '/my-physical-ai-book',
@@ -82,7 +82,7 @@ const config = {
           sidebarPath: './sidebars.js',
           // Set to false to disable the docs plugin
           routeBasePath: '/',
-          editUrl: 'https://github.com/Anas-Rajput12/Physical-AI',
+          editUrl: 'https://github.com/Anas-Rajput12/AI-Hackathon',
         },
         blog: false, // Disable blog for this educational book
         theme: {
@@ -132,7 +132,7 @@ const config = {
             className: 'navbar__item',
           },
           {
-            href: 'https://github.com/Anas-Rajput12/my-physicalAi-2',
+            href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
             label: 'GitHub',
             position: 'right',
             className: 'navbar-github-link',
@@ -174,7 +174,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/Anas-Rajput12/my-physicalAi-2',
+                href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
               },
             ],
           },
