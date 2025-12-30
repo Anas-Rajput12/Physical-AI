@@ -10,9 +10,8 @@ const config = {
 
   // Set the production url of your site here
   url: 'https://Anas-Rajput12.github.io',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub Pages, this is usually your repo name
-  baseUrl: '/my-physical-ai-book',
+  baseurl: '/AI-Hackathon',
+
 
   // GitHub pages deployment config
   organizationName: 'your-username', // Usually your GitHub org/user name
