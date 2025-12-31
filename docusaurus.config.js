@@ -23,6 +23,7 @@ const config = {
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  trailingSlash: false,
 
   // Add Font Awesome for GitHub icon
   scripts: [
