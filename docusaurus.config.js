@@ -15,6 +15,7 @@ const config = {
   baseUrl: '/AI-Hackathon',
 
 
+
   // GitHub pages deployment config
   organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
   projectName: 'AI-Hackathon', // Usually your repo name
@@ -166,7 +167,7 @@ const config = {
             items: [
               {
                 label: 'Book',
-                to: '/docs/intro',
+                to: '/intro',
               },
             ],
           },
