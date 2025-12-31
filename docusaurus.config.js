@@ -9,10 +9,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     VERCEL DEPLOYMENT CONFIG
+     DEPLOYMENT (VERCEL)
      ========================= */
   url: 'https://ai-hackathon-vqou.vercel.app',
-  baseUrl: '/', // MUST be '/' for Vercel root deploy
+  baseUrl: '/', // MUST be '/' on Vercel
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -23,7 +23,7 @@ const config = {
      ========================= */
   scripts: [
     {
-      src: 'js/language-switcher.js', // relative path (baseUrl-safe)
+      src: 'js/language-switcher.js',
       async: true,
     },
   ],
@@ -40,13 +40,14 @@ const config = {
     },
     {
       tagName: 'script',
+      attributes: {}, // ✅ REQUIRED in Docusaurus v3
       innerHTML: `
         document.addEventListener('DOMContentLoaded', () => {
           const switcher = document.getElementById('language-switcher');
           if (!switcher) return;
 
-          const saved = localStorage.getItem('preferredLanguage') || 'en';
-          switcher.value = saved;
+          const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+          switcher.value = savedLang;
 
           switcher.addEventListener('change', (e) => {
             const lang = e.target.value;
@@ -115,7 +116,7 @@ const config = {
                 padding: 0.3rem 0.6rem;
                 border-radius: 6px;
                 border: 1px solid var(--ifm-color-emphasis-300);
-                background: var(--ifm-background-surface-color);
+                background-color: var(--ifm-background-surface-color);
                 color: var(--ifm-font-color-base);
               ">
               <option value="en">English</option>
