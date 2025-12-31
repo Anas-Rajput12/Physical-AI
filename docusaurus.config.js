@@ -168,7 +168,7 @@ const config = {
             items: [
               {
                 label: 'Book',
-                to: '/intro',
+                to: '/docs/intro',
               },
             ],
           },
