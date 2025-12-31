@@ -53,7 +53,7 @@ npm run deploy
 ## Project Structure
 
 ```
-my-physical-ai-book/
+AI-Hackathon/
 ├── docs/                 # All course content
 │   ├── intro.md          # Course introduction
 │   ├── ros2/            # ROS 2 module

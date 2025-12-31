@@ -9,14 +9,15 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-username.github.io',
+  url: 'https://Anas-Rajput12.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub Pages, this is usually your repo name
-  baseUrl: '/my-physical-ai-book',
+  baseUrl: '/AI-Hackathon',
+
 
   // GitHub pages deployment config
-  organizationName: 'your-username', // Usually your GitHub org/user name
-  projectName: 'my-physical-ai-book', // Usually your repo name
+  organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
+  projectName: 'AI-Hackathon', // Usually your repo name
   deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
 
   onBrokenLinks: 'throw',
@@ -81,8 +82,8 @@ const config = {
         docs: {
           sidebarPath: './sidebars.js',
           // Set to false to disable the docs plugin
-          routeBasePath: '/',
-          editUrl: 'https://github.com/Anas-Rajput12/Physical-AI',
+          // routeBasePath: '/', // Using default which puts docs under /docs/
+          editUrl: 'https://github.com/Anas-Rajput12/AI-Hackathon',
         },
         blog: false, // Disable blog for this educational book
         theme: {
@@ -132,7 +133,7 @@ const config = {
             className: 'navbar__item',
           },
           {
-            href: 'https://github.com/Anas-Rajput12/my-physicalAi-2',
+            href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
             label: 'GitHub',
             position: 'right',
             className: 'navbar-github-link',
@@ -145,11 +146,11 @@ const config = {
             items: [
               {
                 label: 'Sign In',
-                to: '/my-physical-ai-book/signin',
+                to: '/AI-Hackathon/signin',
               },
               {
                 label: 'Sign Up',
-                to: '/my-physical-ai-book/signup',
+                to: '/AI-Hackathon/signup',
               }
             ]
           },
@@ -174,7 +175,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/Anas-Rajput12/my-physicalAi-2',
+                href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
               },
             ],
           },
