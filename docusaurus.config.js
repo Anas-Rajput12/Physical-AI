@@ -9,10 +9,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (VERCEL)
+     DEPLOYMENT (GITHUB PAGES)
      ========================= */
-  url: 'https://ai-hackathon-vqou.vercel.app',
-  baseUrl: '/', // MUST be '/' on Vercel
+  url: 'https://Anas-Rajput12.github.io',
+  baseUrl: '/Hackathon-quarter4', // Repository name for GitHub Pages
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -78,7 +78,7 @@ const config = {
       {
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/Anas-Rajput12/AI-Hackathon',
+          editUrl: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
         },
         blog: false,
         theme: {
@@ -87,6 +87,13 @@ const config = {
       },
     ],
   ],
+
+  /* =========================
+     GITHUB PAGES DEPLOYMENT
+     ========================= */
+  organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
+  projectName: 'Hackathon-quarter4', // Usually your repo name
+  deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
 
   /* =========================
      THEME CONFIG
@@ -127,7 +134,7 @@ const config = {
         },
 
         {
-          href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
+          href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
         },
@@ -156,7 +163,7 @@ const config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/Anas-Rajput12/AI-Hackathon',
+              href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
             },
           ],
         },
