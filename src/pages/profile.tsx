@@ -1,9 +1,45 @@
-import React from 'react';
-import { useUser } from '@clerk/clerk-react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
 
 const ProfilePage = () => {
-  const { user, isLoaded, isSignedIn } = useUser();
+  const [user, setUser] = useState<any>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [clerkAvailable, setClerkAvailable] = useState(false);
+
+  // Check if Clerk is available after component mounts (client-side only)
+  useEffect(() => {
+    const loadClerk = async () => {
+      if (typeof window !== 'undefined') {
+        // Check if Clerk is available
+        if ((window as any).Clerk) {
+          setClerkAvailable(true);
+
+          try {
+            // Dynamically import Clerk hooks
+            const { useUser } = await import('@clerk/clerk-react');
+            // Since we can't use hooks in useEffect directly, we'll use Clerk's global API
+            const clerkUser = (window as any).Clerk?.user;
+            if (clerkUser) {
+              setUser(clerkUser);
+              setIsSignedIn(true);
+            } else {
+              setIsSignedIn(false);
+            }
+          } catch (err) {
+            console.warn('Clerk not properly configured:', err);
+            setIsSignedIn(false);
+          }
+        } else {
+          console.warn('Clerk is not available');
+          setIsSignedIn(false);
+        }
+      }
+      setIsLoaded(true);
+    };
+
+    loadClerk();
+  }, []);
 
   if (!isLoaded) {
     return (
@@ -39,7 +75,7 @@ const ProfilePage = () => {
                 <div className="card__body" style={{ padding: '1.5rem', textAlign: 'center' }}>
                   <p>Please sign in to view your profile.</p>
                   <a
-                    href="/my-physical-ai-book/signin"
+                    href="/signin"
                     className="button button--primary"
                     style={{
                       padding: '0.5rem 1rem',
@@ -83,31 +119,31 @@ const ProfilePage = () => {
                   <h3 style={{ color: '#1f2937', marginBottom: '1rem' }}>Personal Information</h3>
                   <div className="row">
                     <div className="col col--6">
-                      <p><strong>Name:</strong> {user.fullName || user.username || 'N/A'}</p>
-                      <p><strong>Email:</strong> {user.primaryEmailAddress?.emailAddress || 'N/A'}</p>
-                      <p><strong>Member Since:</strong> {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</p>
+                      <p><strong>Name:</strong> {user?.fullName || user?.username || 'N/A'}</p>
+                      <p><strong>Email:</strong> {user?.primaryEmailAddress?.emailAddress || 'N/A'}</p>
+                      <p><strong>Member Since:</strong> {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</p>
                     </div>
                     <div className="col col--6">
-                      <p><strong>Software Level:</strong> {user.unsafeMetadata?.softwareLevel || 'N/A'}</p>
-                      <p><strong>Hardware Experience:</strong> {user.unsafeMetadata?.hardwareExperience || 'N/A'}</p>
-                      <p><strong>Goal:</strong> {user.unsafeMetadata?.goal || 'N/A'}</p>
+                      <p><strong>Software Level:</strong> {user?.unsafeMetadata?.softwareLevel || 'N/A'}</p>
+                      <p><strong>Hardware Experience:</strong> {user?.unsafeMetadata?.hardwareExperience || 'N/A'}</p>
+                      <p><strong>Goal:</strong> {user?.unsafeMetadata?.goal || 'N/A'}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="margin-bottom--lg">
                   <h3 style={{ color: '#1f2937', marginBottom: '1rem' }}>Programming Languages</h3>
-                  <p>{user.unsafeMetadata?.programmingLanguages || 'N/A'}</p>
+                  <p>{user?.unsafeMetadata?.programmingLanguages || 'N/A'}</p>
                 </div>
 
                 <div className="margin-bottom--lg">
                   <h3 style={{ color: '#1f2937', marginBottom: '1rem' }}>Security</h3>
-                  <p><strong>Two-Factor Authentication:</strong> {user.twoFactorEnabled ? 'Enabled' : 'Disabled'}</p>
+                  <p><strong>Two-Factor Authentication:</strong> {user?.twoFactorEnabled ? 'Enabled' : 'Disabled'}</p>
                 </div>
 
                 <div className="button-group button-group--block">
                   <a
-                    href="/my-physical-ai-book/"
+                    href="/"
                     className="button button--secondary"
                     style={{
                       marginRight: '1rem',
@@ -123,9 +159,11 @@ const ProfilePage = () => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      (window as any).Clerk?.signOut().then(() => {
-                        window.location.href = '/my-physical-ai-book/';
-                      });
+                      if ((window as any).Clerk?.signOut) {
+                        (window as any).Clerk?.signOut().then(() => {
+                          window.location.href = '/';
+                        });
+                      }
                     }}
                     className="button button--danger"
                     style={{

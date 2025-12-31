@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
-import { useAuth } from '../components/ClerkAuthProvider';
-import { useUser, useClerk } from '@clerk/clerk-react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import clsx from 'clsx';
 
 const SigninPage = () => {
-  const { user } = useUser();
-  const { openSignIn } = useClerk();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [clerkAvailable, setClerkAvailable] = useState(false);
+
+  // Check if Clerk is available after component mounts (client-side only)
+  useEffect(() => {
+    // Check if Clerk is available on the client side
+    if (typeof window !== 'undefined') {
+      // Clerk availability check
+      setClerkAvailable(!!(window as any).Clerk);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,64 +24,27 @@ const SigninPage = () => {
     setLoading(true);
     setError('');
 
-    try {
-      // Open Clerk's sign-in flow
-      openSignIn();
-    } catch (err) {
-      setError('An error occurred during sign in. Please try again.');
-      console.error(err);
+    // Try to use Clerk if available
+    if (clerkAvailable) {
+      try {
+        const { useClerk } = await import('@clerk/clerk-react');
+        // Use Clerk's sign-in flow
+        const clerk = useClerk();
+        if (clerk && clerk.openSignIn) {
+          clerk.openSignIn();
+        } else {
+          setError('Authentication service is not available. Please try again later.');
+          setLoading(false);
+        }
+      } catch (err) {
+        setError('Authentication service is not available. Please try again later.');
+        setLoading(false);
+      }
+    } else {
+      setError('Authentication service is not configured. Please contact the administrator.');
       setLoading(false);
     }
   };
-
-  // If user is already signed in, redirect them or show a message
-  if (user) {
-    return (
-      <Layout title="Sign In" description="Sign in to your Physical AI course account">
-        <div className="container margin-vert--lg">
-          <div className="row">
-            <div className="col col--6 col--offset-3">
-              <div className="card" style={{
-                boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-                borderRadius: '12px',
-                overflow: 'hidden',
-                border: 'none'
-              }}>
-                <div className="card__header" style={{
-                  backgroundColor: '#2563eb',
-                  color: 'white',
-                  padding: '1.5rem',
-                  textAlign: 'center'
-                }}>
-                  <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '600' }}>Already Signed In</h2>
-                </div>
-                <div className="card__body" style={{ padding: '1.5rem', textAlign: 'center' }}>
-                  <p>You are already signed in as {user.primaryEmailAddress?.emailAddress}</p>
-                  <a
-                    href="/my-physical-ai-book/profile"
-                    className="button button--primary"
-                    style={{
-                      padding: '0.5rem 1rem',
-                      backgroundColor: '#2563eb',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '1rem',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      textDecoration: 'none'
-                    }}
-                  >
-                    View Profile
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout title="Sign In" description="Sign in to your Physical AI course account">
@@ -171,7 +140,7 @@ const SigninPage = () => {
                 <p style={{ margin: 0, color: '#6b7280' }}>
                   Don't have an account?{' '}
                   <a
-                    href="/my-physical-ai-book/signup"
+                    href="/signup"
                     style={{
                       color: '#2563eb',
                       textDecoration: 'none',
