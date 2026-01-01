@@ -13,10 +13,6 @@ const config = {
      ========================= */
   url: 'https://hackathon-quarter4-alpha.vercel.app/',
   baseUrl: '/',
-  trailingSlash: false,
-
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
 
   /* =========================
      SCRIPTS & HEAD TAGS
