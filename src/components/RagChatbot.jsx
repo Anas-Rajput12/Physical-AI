@@ -3,7 +3,7 @@ import { FaComments, FaTrash } from "react-icons/fa";
 import "./Chatbot.css";
 
 const BACKEND_URL =
-  import.meta.env.REACT_APP_BACKEND_URL || "http://localhost:8000";
+  import.meta.env.REACT_APP_BACKEND_URL || "https://backend-12-teal.vercel.app/";
 
 export default function RagChatbot() {
   const [open, setOpen] = useState(false);
