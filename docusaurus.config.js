@@ -7,19 +7,15 @@ const config = {
   tagline: 'A comprehensive course for senior undergraduate AI students',
   favicon: 'img/favicon.ico',
 
-  /* =========================
-     DEPLOYMENT (VERCEL)
-     ========================= */
   url: 'https://hackathon-quarter4-alpha.vercel.app',
   baseUrl: '/',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  trailingSlash: false,
 
-  /* =========================
-     HEAD TAGS
-     ========================= */
+  // 🚫 REMOVE trailingSlash for Vercel
+  // trailingSlash: false,
+
   headTags: [
     {
       tagName: 'link',
@@ -32,17 +28,11 @@ const config = {
     },
   ],
 
-  /* =========================
-     I18N
-     ========================= */
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
 
-  /* =========================
-     PRESETS
-     ========================= */
   presets: [
     [
       'classic',
@@ -58,9 +48,6 @@ const config = {
     ],
   ],
 
-  /* =========================
-     THEME CONFIG
-     ========================= */
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
 
@@ -81,7 +68,6 @@ const config = {
           href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
-          className: 'navbar-github-link',
         },
       ],
     },
