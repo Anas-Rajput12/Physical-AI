@@ -11,8 +11,8 @@ const config = {
   /* =========================
      DEPLOYMENT (GitHub Pages / Vercel)
      ========================= */
-  url: 'https://Anas-Rajput12.github.io',
-  baseUrl: '/Hackathon-quarter4/',
+  url: 'https://hackathon-quarter4-alpha.vercel.app/',
+  baseUrl: '/',
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
