@@ -9,21 +9,21 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (GITHUB PAGES)
+     DEPLOYMENT (GitHub Pages / Vercel)
      ========================= */
   url: 'https://Anas-Rajput12.github.io',
-  baseUrl: '/Hackathon-quarter4', // Repository name for GitHub Pages
+  baseUrl: '/Hackathon-quarter4/',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  trailingSlash: false,
 
   /* =========================
      SCRIPTS & HEAD TAGS
      ========================= */
   scripts: [
     {
-      src: 'js/language-switcher.js',
+      src: '/js/language-switcher.js',
       async: true,
     },
   ],
@@ -40,7 +40,7 @@ const config = {
     },
     {
       tagName: 'script',
-      attributes: {}, // ✅ REQUIRED in Docusaurus v3
+      attributes: {},
       innerHTML: `
         document.addEventListener('DOMContentLoaded', () => {
           const switcher = document.getElementById('language-switcher');
@@ -78,7 +78,8 @@ const config = {
       {
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
+          editUrl:
+            'https://github.com/Anas-Rajput12/Hackathon-quarter4/tree/main/',
         },
         blog: false,
         theme: {
@@ -89,11 +90,11 @@ const config = {
   ],
 
   /* =========================
-     GITHUB PAGES DEPLOYMENT
+     GITHUB PAGES SETTINGS
      ========================= */
-  organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
-  projectName: 'Hackathon-quarter4', // Usually your repo name
-  deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
+  organizationName: 'Anas-Rajput12',
+  projectName: 'Hackathon-quarter4',
+  deploymentBranch: 'gh-pages',
 
   /* =========================
      THEME CONFIG
@@ -112,20 +113,14 @@ const config = {
           type: 'docSidebar',
           sidebarId: 'docs',
           label: 'Book',
+          position: 'left',
         },
 
         {
           type: 'html',
           position: 'right',
           value: `
-            <select id="language-switcher"
-              style="
-                padding: 0.3rem 0.6rem;
-                border-radius: 6px;
-                border: 1px solid var(--ifm-color-emphasis-300);
-                background-color: var(--ifm-background-surface-color);
-                color: var(--ifm-font-color-base);
-              ">
+            <select id="language-switcher" class="language-switcher">
               <option value="en">English</option>
               <option value="ur">Urdu</option>
               <option value="sd">Sindhi</option>
@@ -137,6 +132,7 @@ const config = {
           href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
+          className: 'navbar-github-link',
         },
 
         {
