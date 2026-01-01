@@ -1,6 +1,5 @@
 // @ts-check
 import { themes as prismThemes } from 'prism-react-renderer';
-import 'dotenv/config';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -9,21 +8,18 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (GitHub Pages / Vercel)
+     DEPLOYMENT (VERCEL)
      ========================= */
-  url: 'https://hackathon-quarter4-alpha.vercel.app/',
+  url: 'https://hackathon-quarter4-alpha.vercel.app',
   baseUrl: '/',
 
-  /* =========================
-     SCRIPTS & HEAD TAGS
-     ========================= */
-  scripts: [
-    {
-      src: '/js/language-switcher.js',
-      async: true,
-    },
-  ],
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
+  trailingSlash: false,
 
+  /* =========================
+     HEAD TAGS
+     ========================= */
   headTags: [
     {
       tagName: 'link',
@@ -33,27 +29,6 @@ const config = {
         crossorigin: 'anonymous',
         referrerpolicy: 'no-referrer',
       },
-    },
-    {
-      tagName: 'script',
-      attributes: {},
-      innerHTML: `
-        document.addEventListener('DOMContentLoaded', () => {
-          const switcher = document.getElementById('language-switcher');
-          if (!switcher) return;
-
-          const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-          switcher.value = savedLang;
-
-          switcher.addEventListener('change', (e) => {
-            const lang = e.target.value;
-            localStorage.setItem('preferredLanguage', lang);
-            window.dispatchEvent(
-              new CustomEvent('languageChanged', { detail: { language: lang } })
-            );
-          });
-        });
-      `,
     },
   ],
 
@@ -74,8 +49,6 @@ const config = {
       {
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl:
-            'https://github.com/Anas-Rajput12/Hackathon-quarter4/tree/main/',
         },
         blog: false,
         theme: {
@@ -84,13 +57,6 @@ const config = {
       },
     ],
   ],
-
-  /* =========================
-     GITHUB PAGES SETTINGS
-     ========================= */
-  organizationName: 'Anas-Rajput12',
-  projectName: 'Hackathon-quarter4',
-  deploymentBranch: 'gh-pages',
 
   /* =========================
      THEME CONFIG
@@ -102,7 +68,7 @@ const config = {
       title: 'Physical AI',
       logo: {
         alt: 'Physical AI Logo',
-        src: 'https://imgcdn.stablediffusionweb.com/2024/2/29/4271b7e7-6e2b-498a-ae2c-89a709c2e175.jpg',
+        src: 'img/logo.png',
       },
       items: [
         {
@@ -111,34 +77,11 @@ const config = {
           label: 'Book',
           position: 'left',
         },
-
-        {
-          type: 'html',
-          position: 'right',
-          value: `
-            <select id="language-switcher" class="language-switcher">
-              <option value="en">English</option>
-              <option value="ur">Urdu</option>
-              <option value="sd">Sindhi</option>
-            </select>
-          `,
-        },
-
         {
           href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
           className: 'navbar-github-link',
-        },
-
-        {
-          type: 'dropdown',
-          label: 'Account',
-          position: 'right',
-          items: [
-            { label: 'Sign In', to: '/signin' },
-            { label: 'Sign Up', to: '/signup' },
-          ],
         },
       ],
     },
@@ -149,15 +92,6 @@ const config = {
         {
           title: 'Course',
           items: [{ label: 'Book', to: '/docs/intro' }],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
-            },
-          ],
         },
       ],
       copyright: `© ${new Date().getFullYear()} Physical AI & Humanoid Robotics`,
