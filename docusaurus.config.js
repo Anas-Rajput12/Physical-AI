@@ -9,7 +9,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (Vercel/GitHub)
+     DEPLOYMENT (GITHUB PAGES / VERCEL)
      ========================= */
   url: 'https://hackathon-quarter4-alpha.vercel.app/',
   baseUrl: '/',
@@ -58,9 +58,9 @@ const config = {
         });
       `,
     },
-    // Example for exposing env variable to frontend if needed
     {
       tagName: 'script',
+      attributes: {}, // ✅ attributes must be present
       innerHTML: `
         window.REACT_APP_OPENROUTER_API_KEY = "${process.env.OPENROUTER_API_KEY || ''}";
       `,
@@ -106,11 +106,7 @@ const config = {
      ========================= */
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
-
-    // ✅ Clerk configuration (required for auth)
-    clerk: {
-      publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '',
-    },
+    clerkPublishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '',
 
     navbar: {
       title: 'Physical AI',
