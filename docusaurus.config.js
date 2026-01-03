@@ -9,11 +9,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (GITHUB PAGES)
+     DEPLOYMENT (Vercel/GitHub)
      ========================= */
   url: 'https://hackathon-quarter4-alpha.vercel.app/',
-  baseUrl: '/', // Repository name for GitHub Pages
-
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
@@ -40,7 +39,7 @@ const config = {
     },
     {
       tagName: 'script',
-      attributes: {}, // ✅ REQUIRED in Docusaurus v3
+      attributes: {},
       innerHTML: `
         document.addEventListener('DOMContentLoaded', () => {
           const switcher = document.getElementById('language-switcher');
@@ -57,6 +56,13 @@ const config = {
             );
           });
         });
+      `,
+    },
+    // Example for exposing env variable to frontend if needed
+    {
+      tagName: 'script',
+      innerHTML: `
+        window.REACT_APP_OPENROUTER_API_KEY = "${process.env.OPENROUTER_API_KEY || ''}";
       `,
     },
   ],
@@ -91,15 +97,20 @@ const config = {
   /* =========================
      GITHUB PAGES DEPLOYMENT
      ========================= */
-  organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
-  projectName: 'Hackathon-quarter4', // Usually your repo name
-  deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
+  organizationName: 'Anas-Rajput12',
+  projectName: 'Hackathon-quarter4',
+  deploymentBranch: 'gh-pages',
 
   /* =========================
      THEME CONFIG
      ========================= */
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
+
+    // ✅ Clerk configuration (required for auth)
+    clerk: {
+      publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '',
+    },
 
     navbar: {
       title: 'Physical AI',
@@ -113,7 +124,6 @@ const config = {
           sidebarId: 'docs',
           label: 'Book',
         },
-
         {
           type: 'html',
           position: 'right',
@@ -132,13 +142,11 @@ const config = {
             </select>
           `,
         },
-
         {
           href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
         },
-
         {
           type: 'dropdown',
           label: 'Account',
