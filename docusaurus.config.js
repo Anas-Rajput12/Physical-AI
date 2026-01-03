@@ -9,11 +9,10 @@ const config = {
   favicon: 'img/favicon.ico',
 
   /* =========================
-     DEPLOYMENT (GITHUB PAGES)
+     DEPLOYMENT (GITHUB PAGES / VERCEL)
      ========================= */
   url: 'https://hackathon-quarter4-alpha.vercel.app/',
-  baseUrl: '/', // Repository name for GitHub Pages
-
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   trailingSlash: false,
@@ -40,7 +39,7 @@ const config = {
     },
     {
       tagName: 'script',
-      attributes: {}, // ✅ REQUIRED in Docusaurus v3
+      attributes: {},
       innerHTML: `
         document.addEventListener('DOMContentLoaded', () => {
           const switcher = document.getElementById('language-switcher');
@@ -59,6 +58,7 @@ const config = {
         });
       `,
     },
+<<<<<<< HEAD
     // Expose environment variables to the client
     {
       tagName: 'script',
@@ -68,6 +68,13 @@ const config = {
       innerHTML: `
         window.REACT_APP_OPENROUTER_API_KEY = "${process.env.OPENROUTER_API_KEY || ''}";
         window.REACT_APP_CLERK_PUBLISHABLE_KEY = "${process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || ''}";
+=======
+    {
+      tagName: 'script',
+      attributes: {}, // ✅ attributes must be present
+      innerHTML: `
+        window.REACT_APP_OPENROUTER_API_KEY = "${process.env.OPENROUTER_API_KEY || ''}";
+>>>>>>> e4c82aa21aed9bd3cb31fd8112fd270a81d758cd
       `,
     },
   ],
@@ -102,16 +109,19 @@ const config = {
   /* =========================
      GITHUB PAGES DEPLOYMENT
      ========================= */
-  organizationName: 'Anas-Rajput12', // Usually your GitHub org/user name
-  projectName: 'Hackathon-quarter4', // Usually your repo name
-  deploymentBranch: 'gh-pages', // Branch that GitHub Pages will deploy from
+  organizationName: 'Anas-Rajput12',
+  projectName: 'Hackathon-quarter4',
+  deploymentBranch: 'gh-pages',
 
   /* =========================
      THEME CONFIG
      ========================= */
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
+<<<<<<< HEAD
     // Clerk publishable key - replace with your actual key
+=======
+>>>>>>> e4c82aa21aed9bd3cb31fd8112fd270a81d758cd
     clerkPublishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '',
 
     navbar: {
@@ -126,6 +136,7 @@ const config = {
           sidebarId: 'docs',
           label: 'Book',
         },
+<<<<<<< HEAD
 
         // {
         //   type: 'html',
@@ -146,12 +157,31 @@ const config = {
         //   `,
         // },
 
+=======
+        {
+          type: 'html',
+          position: 'right',
+          value: `
+            <select id="language-switcher"
+              style="
+                padding: 0.3rem 0.6rem;
+                border-radius: 6px;
+                border: 1px solid var(--ifm-color-emphasis-300);
+                background-color: var(--ifm-background-surface-color);
+                color: var(--ifm-font-color-base);
+              ">
+              <option value="en">English</option>
+              <option value="ur">Urdu</option>
+              <option value="sd">Sindhi</option>
+            </select>
+          `,
+        },
+>>>>>>> e4c82aa21aed9bd3cb31fd8112fd270a81d758cd
         {
           href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
           label: 'GitHub',
           position: 'right',
         },
-
         {
           type: 'dropdown',
           label: 'Account',
