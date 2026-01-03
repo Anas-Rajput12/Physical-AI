@@ -1,3 +1,7 @@
+/* ===============================
+   CHATBOT CONTAINER
+   =============================== */
+
 .chat-container {
   position: fixed;
   bottom: 20px;
@@ -5,6 +9,7 @@
   z-index: 9999;
 }
 
+/* Floating button */
 .chat-button {
   background: #2563eb;
   border: none;
@@ -12,7 +17,12 @@
   padding: 14px;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
+
+/* ===============================
+   CHAT BOX
+   =============================== */
 
 .chat-box {
   width: 320px;
@@ -22,26 +32,33 @@
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
 }
+
+/* ===============================
+   HEADER
+   =============================== */
 
 .chat-header {
   background: #2563eb;
   color: white;
-  padding: 10px;
+  padding: 10px 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.close-btn,
-.icon-btn {
+.close-btn {
   background: none;
   border: none;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  margin-left: 6px;
 }
+
+/* ===============================
+   CHAT BODY
+   =============================== */
 
 .chat-body {
   flex: 1;
@@ -51,26 +68,33 @@
   flex-direction: column;
 }
 
+/* Message bubble */
 .bubble {
   max-width: 75%;
   padding: 8px 12px;
   margin: 4px 0;
   border-radius: 12px;
   word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
-/* LEFT = BOT */
+/* BOT message (LEFT) */
 .bubble.bot {
   background: #f1f5f9;
   align-self: flex-start;
 }
 
-/* RIGHT = USER */
+/* USER message (RIGHT) */
 .bubble.user {
   background: #2563eb;
   color: white;
   align-self: flex-end;
 }
+
+/* ===============================
+   INPUT AREA
+   =============================== */
 
 .chat-input {
   display: flex;
@@ -79,9 +103,10 @@
 
 .chat-input input {
   flex: 1;
-  padding: 8px;
+  padding: 10px;
   border: none;
   outline: none;
+  font-size: 14px;
 }
 
 .chat-input button {
@@ -90,4 +115,68 @@
   border: none;
   padding: 0 16px;
   cursor: pointer;
+}
+
+/* ===============================
+   ANIMATION
+   =============================== */
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+   =============================== */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .chat-box {
+    width: 90vw;
+    height: 70vh;
+    max-width: 380px;
+  }
+
+  .chat-container {
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+/* Mobile Phones */
+@media (max-width: 480px) {
+  .chat-box {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .chat-header {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .chat-body {
+    padding: 12px;
+  }
+
+  .bubble {
+    max-width: 85%;
+    font-size: 14px;
+  }
+
+  .chat-input input {
+    font-size: 16px; /* Prevent mobile zoom */
+  }
 }

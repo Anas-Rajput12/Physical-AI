@@ -11,7 +11,8 @@ interface ThemeConfig {
 
 export default function Root({ children }: Props) {
   const themeConfig = useThemeConfig() as any as ThemeConfig;
-  const clerkPublishableKey = themeConfig.clerkPublishableKey || '';
+  // First try to get the key from theme config, then fall back to environment variable
+  const clerkPublishableKey = themeConfig.clerkPublishableKey || process.env.REACT_APP_CLERK_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || '';
 
   if (!clerkPublishableKey) {
     console.warn('Clerk publishable key is not set. Please configure it properly in your docusaurus.config.js themeConfig.');

@@ -66,12 +66,44 @@ export { UserButton } from '@clerk/clerk-react';
 // Main AuthProvider that initializes Clerk
 interface AuthProviderProps {
   children: ReactNode;
-  publishableKey: string;
+  publishableKey?: string; // Make it optional since it might come from environment
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children, publishableKey }) => {
+  const resolvedPublishableKey = publishableKey || process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+
+  // If no publishable key is available, provide a fallback or show error
+  if (!resolvedPublishableKey) {
+    console.warn("Clerk publishable key is not configured. Authentication will not work.");
+    return (
+      <div style={{
+        padding: '2rem',
+        textAlign: 'center',
+        backgroundColor: '#f8fafc',
+        minHeight: '100vh'
+      }}>
+        <h2 style={{ color: '#dc2626' }}>Authentication Service Not Configured</h2>
+        <p style={{ color: '#6b7280' }}>
+          Please contact the administrator to configure the authentication service.
+        </p>
+        <p style={{ color: '#4b5563', fontSize: '0.9rem', marginTop: '1rem' }}>
+          This application requires a Clerk publishable key to enable authentication.
+        </p>
+      </div>
+    );
+  }
+
+  // Configure Clerk to disable phone number authentication completely
+  const clerkOptions = {
+    publishableKey: resolvedPublishableKey,
+    signInUrl: '/signin',
+    signUpUrl: '/signup',
+    signInFallbackRedirectUrl: '/dashboard',
+    signUpFallbackRedirectUrl: '/dashboard',
+  };
+
   return (
-    <ClerkProvider publishableKey={publishableKey}>
+    <ClerkProvider {...clerkOptions}>
       <AuthProviderComponent>
         {children}
       </AuthProviderComponent>

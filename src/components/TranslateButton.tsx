@@ -46,6 +46,14 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({
         sourceLanguage: 'en'
       });
 
+      // Check if the translation is just the original text (fallback case)
+      if (translated === content) {
+        setError('Translation service is not configured. Please contact the administrator.');
+        onTranslation(content);
+        setLoading(false);
+        return;
+      }
+
       // Cache the translation
       setCachedTranslation(cacheKey, translated);
 

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chatbot Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chat-container {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            height: 400px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .user-message {
+            background-color: #d1ecf1;
+            text-align: right;
+        }
+        .bot-message {
+            background-color: #f8d7da;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007cba;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a87;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #014d5e;
+        }
+    </style>
+</head>
+<body>
+    <h1>RAG Chatbot Q/A Test</h1>
+    <p>This test demonstrates the Q/A functionality with your deployed backend.</p>
+    <p><strong>Current Status:</strong> API endpoint fixed - frontend can now communicate with backend</p>
+    <p><strong>Current Issue:</strong> Backend has Qdrant client compatibility issue (needs fixing on Hugging Face)</p>
+
+    <div id="status" class="status info">
+        Ready to test. Type a message below and click Send to test the Q/A functionality.
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="message bot-message">
+            <strong>Bot:</strong> Hello! I'm your RAG Chatbot. I can now communicate with the backend API.
+            (Note: There's currently a Qdrant compatibility issue on the backend that needs to be fixed.)
+        </div>
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Type your question here..." onkeypress="handleKeyPress(event)">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <h3>How to Fix the Backend Issue</h3>
+    <p>The backend on Hugging Face is showing: <code>'QdrantClient' object has no attribute 'search'</code></p>
+    <p>This means the deployed version has a different Qdrant client version. You need to update your Hugging Face Space with the correct Qdrant method call.</p>
+
+    <script>
+        let isLoading = false;
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !isLoading) {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Show loading status
+            isLoading = true;
+            document.getElementById('status').innerHTML = 'Sending message to backend...';
+            document.querySelector('button').disabled = true;
+
+            try {
+                // Show typing indicator
+                const typingMessage = addMessage('Thinking...', 'bot', true);
+
+                // Make API call to backend
+                const response = await fetch('https://muhammadanasqadri-backend.hf.space/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: message,
+                        selected_text: ""
+                    })
+                });
+
+                // Remove typing indicator
+                removeMessage(typingMessage);
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success - show the answer
+                    addMessage(data.answer || 'No answer received', 'bot');
+                    document.getElementById('status').innerHTML =
+                        '<div class="success">✅ Successfully received response from backend!</div>';
+                } else {
+                    // Backend returned an error
+                    const errorMsg = data.detail || 'Backend returned an error';
+                    addMessage(`Error: ${errorMsg}`, 'bot');
+                    document.getElementById('status').innerHTML =
+                        `<div class="error">❌ Backend Error: ${errorMsg}</div>`;
+                }
+            } catch (error) {
+                // Network or other error
+                removeMessage(document.querySelector('.temp-message')); // Remove typing indicator if still there
+                addMessage(`Network Error: ${error.message}`, 'bot');
+                document.getElementById('status').innerHTML =
+                    `<div class="error">❌ Network Error: ${error.message}</div>`;
+            } finally {
+                isLoading = false;
+                document.querySelector('button').disabled = false;
+            }
+        }
+
+        function addMessage(text, sender, isTemp = false) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            if (isTemp) {
+                messageDiv.className += ' temp-message';
+            }
+            messageDiv.innerHTML = `<strong>${sender === 'user' ? 'You:' : 'Bot:'}</strong> ${text}`;
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            return messageDiv;
+        }
+
+        function removeMessage(messageElement) {
+            if (messageElement && messageElement.parentNode) {
+                messageElement.parentNode.removeChild(messageElement);
+            }
+        }
+    </script>
+</body>
+</html>

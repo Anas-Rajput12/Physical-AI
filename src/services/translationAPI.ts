@@ -6,10 +6,13 @@ declare global {
   }
 }
 
+// First try to get the API key from the environment variable
+// If not available, check the window object
 const OPENROUTER_API_KEY =
-  typeof window !== 'undefined' && window.OPENROUTER_API_KEY
-    ? window.OPENROUTER_API_KEY
-    : (typeof process !== 'undefined' && process.env ? process.env.OPENROUTER_API_KEY || '' : '');
+  (typeof process !== 'undefined' && process.env && process.env.OPENROUTER_API_KEY) ||
+  (typeof window !== 'undefined' && (window as any).env && (window as any).env.OPENROUTER_API_KEY) ||
+  (typeof window !== 'undefined' && (window as any).REACT_APP_OPENROUTER_API_KEY) ||
+  '';
 
 interface TranslationRequest {
   text: string;
@@ -23,7 +26,9 @@ export const translateText = async ({
   sourceLanguage = 'en'
 }: TranslationRequest): Promise<string> => {
   if (!OPENROUTER_API_KEY) {
-    throw new Error('OpenRouter API key is not configured');
+    console.warn('OpenRouter API key is not configured. Translation will not work.');
+    // Return original text as fallback
+    return text;
   }
 
   // Map language codes to full names for the prompt

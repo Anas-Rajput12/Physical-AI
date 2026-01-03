@@ -23,7 +23,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://hackathon-quarter4-alpha.vercel.app/"],  # In production, replace with specific origins
+    allow_origins=["*"],  # In production, replace with specific origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -85,7 +85,7 @@ async def shutdown_event():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "api.main:app",
+        "src.api.main:app",
         host=settings.host,
         port=settings.port,
         reload=settings.debug

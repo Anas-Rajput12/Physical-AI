@@ -36,7 +36,7 @@ const AutoTranslateChapter: React.FC<AutoTranslateChapterProps> = ({ children, t
         </div>
       )}
 
-      {error && (
+      {error && currentLanguage !== 'en' && (
         <div className="alert alert--danger">
           {error}
         </div>

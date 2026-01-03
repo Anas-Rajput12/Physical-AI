@@ -1,138 +1,121 @@
-import { useState, useRef, useEffect } from "react";
-import { FaComments, FaTrash } from "react-icons/fa";
-import "./Chatbot.css";
+import { useState, useRef, useEffect } from 'react';
+import { FaComments } from 'react-icons/fa';
+import './Chatbot.css';
 
-const BACKEND_URL =
-  import.meta.env.REACT_APP_BACKEND_URL || "localhost:8000";
-
-export default function RagChatbot() {
+export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const chatEndRef = useRef(null);
+  // 🔽 Auto-scroll reference
+  const messagesEndRef = useRef(null);
 
-  // 🔽 Auto-scroll to bottom
+  // 🔽 Scroll to bottom when messages update
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
 
     const userMessage = { sender: "user", text: input };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
 
     const currentInput = input;
     setInput("");
     setLoading(true);
 
     try {
-      const selectedText = window.getSelection()?.toString() || "";
-      const hasSelectedText = selectedText.trim().length > 0;
+      const selected_text = window.getSelection()?.toString() || "";
 
-      const endpoint = hasSelectedText ? "/api/ask-selected" : "/api/ask";
-
-      const pageContext = {
-        url: window.location.href,
-        title: document.title,
-        section:
-          document.querySelector("h1")?.textContent ||
-          document.querySelector("h2")?.textContent ||
-          "Unknown",
-      };
-
-      const body = hasSelectedText
-        ? {
-            question: currentInput,
-            selected_text: selectedText,
-            session_id: null,
-            page_context: pageContext,
-          }
-        : {
-            question: currentInput,
-            session_id: null,
-            page_context: pageContext,
-          };
-
-      const response = await fetch(BACKEND_URL + endpoint, {
+      const res = await fetch("https://muhammadanasqadri-hackathon-backend.hf.space/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          question: currentInput,
+          selected_text,
+        }),
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
-      if (!response.ok) {
-        throw new Error(data.detail || "Request failed");
+      if (!res.ok) {
+        throw new Error(data.detail || res.statusText);
       }
 
-      setMessages((prev) => [
+      const botReply = data.answer || "No response from server.";
+      setMessages(prev => [...prev, { sender: "bot", text: botReply }]);
+    } catch (err) {
+      let errorMsg = err.message || "Unable to reach server";
+
+      if (errorMsg.includes("401") || errorMsg.includes("Unauthorized")) {
+        errorMsg = "Backend configuration error. API keys may be missing.";
+      } else if (errorMsg.includes("500")) {
+        errorMsg = "Backend server error. Please try again later.";
+      } else if (errorMsg.includes("Not Found")) {
+        errorMsg = "API endpoint not found.";
+      }
+
+      setMessages(prev => [
         ...prev,
-        { sender: "bot", text: data.answer || "No response" },
-      ]);
-    } catch (error) {
-      setMessages((prev) => [
-        ...prev,
-        { sender: "bot", text: `Error: ${error.message}` },
+        { sender: "bot", text: `Backend Error: ${errorMsg}` },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-  const clearChat = () => setMessages([]);
-
   const handleKeyPress = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter" && !loading) {
+      sendMessage();
+    }
   };
 
   return (
     <div className="chat-container">
-      {/* Floating Button */}
       <button className="chat-button" onClick={() => setOpen(!open)}>
-        <FaComments size={22} />
+        <FaComments size={24} />
       </button>
 
       {open && (
         <div className="chat-box">
           <div className="chat-header">
             <strong>Physical AI</strong>
-            <div>
-              <button className="icon-btn" onClick={clearChat}>
-                <FaTrash />
-              </button>
-              <button className="close-btn" onClick={() => setOpen(false)}>
-                ×
-              </button>
-            </div>
+            <button className="close-btn" onClick={() => setOpen(false)}>
+              ×
+            </button>
           </div>
 
           <div className="chat-body">
-            {messages.map((msg, i) => (
-              <div key={i} className={`bubble ${msg.sender}`}>
-                {msg.text}
+            {messages.map((m, i) => (
+              <div key={i} className={`bubble ${m.sender}`}>
+                {m.text}
               </div>
             ))}
 
-            {loading && <div className="bubble bot">Typing...</div>}
-            <div ref={chatEndRef} />
+            {loading && (
+              <div className="bubble bot">
+                <em>Typing...</em>
+              </div>
+            )}
+
+            {/* 🔽 Auto-scroll anchor */}
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Type message..."
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message..."
               disabled={loading}
             />
             <button onClick={sendMessage} disabled={loading}>
-              Send
+              {loading ? "..." : "Send"}
             </button>
           </div>
         </div>
@@ -140,3 +123,9 @@ export default function RagChatbot() {
     </div>
   );
 }
+
+
+
+
+
+
