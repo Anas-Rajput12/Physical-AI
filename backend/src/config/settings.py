@@ -4,10 +4,10 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # API Keys and URLs
-    openrouter_api_key: str
+    openrouter_api_key: str = ""
     qdrant_api_key: Optional[str] = None
-    qdrant_url: str
-    neon_database_url: str
+    qdrant_url: str = ""
+    neon_database_url: str = ""
 
     # Model configurations
     embedding_model: str = "openai/text-embedding-3-small"

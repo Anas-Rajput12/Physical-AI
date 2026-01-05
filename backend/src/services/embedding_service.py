@@ -11,6 +11,10 @@ class EmbeddingService:
         self.model = settings.embedding_model
         self.base_url = "https://openrouter.ai/api/v1/embeddings"
 
+        # Validate that API key is properly configured
+        if not self.api_key or self.api_key == "":
+            raise ValueError("OpenRouter API key is not configured. Please set OPENROUTER_API_KEY in your environment variables.")
+
     def generate_embedding(self, text: str) -> List[float]:
         """
         Generate embedding for a single text using OpenRouter API.
