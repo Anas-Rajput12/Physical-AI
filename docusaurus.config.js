@@ -11,7 +11,7 @@ const config = {
   /* =========================
      DEPLOYMENT (GITHUB PAGES / VERCEL)
      ========================= */
-  url: 'https://hackathon-quarter4-alpha.vercel.app/',
+  url: 'https://physical-ai-eight.vercel.app/',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -143,7 +143,7 @@ const config = {
           `,
         },
         {
-          href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
+          href: 'https://github.com/Anas-Rajput12/Physical-AI',
           label: 'GitHub',
           position: 'right',
         },
@@ -171,7 +171,7 @@ const config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/Anas-Rajput12/Hackathon-quarter4',
+              href: 'https://github.com/Anas-Rajput12/Physical-AI',
             },
           ],
         },
