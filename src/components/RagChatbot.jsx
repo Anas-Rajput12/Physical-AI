@@ -29,7 +29,7 @@ export default function Chatbot() {
     try {
       const selected_text = window.getSelection()?.toString() || "";
 
-      const res = await fetch("https://muhammadanasqadri-backend.hf.space/api/chat", {
+      const res = await fetch("https://muhammadanasqadri-projects.hf.space/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
