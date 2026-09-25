@@ -149,11 +149,21 @@ async def ask_with_selected_text(
 # LEGACY /CHAT
 # ============================================================
 
-@router.post("/chat", response_model=ChatResponse)
+@router.post("/chat")
 async def ask_question_legacy(
     request: ChatRequest,
     db: Session = Depends(get_db)
 ):
+    print("🔥🔥 /api/chat ENTERED", flush=True)
+
+    return {
+        "status": "success",
+        "message": "Chat endpoint is working",
+        "question": request.question,
+        "session_id": request.session_id,
+        "has_page_context": request.page_context is not None,
+        "timestamp": time.time()
+    }
     try:
         print("========================================", flush=True)
         print("🔥🔥 /api/chat STARTED", flush=True)
