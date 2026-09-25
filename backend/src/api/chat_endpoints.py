@@ -42,7 +42,7 @@ class ChatResponse(BaseModel):
 
 
 # ============================================================
-# ASK QUESTION
+# /ASK
 # ============================================================
 
 @router.post("/ask", response_model=ChatResponse)
@@ -50,17 +50,14 @@ async def ask_question(
     request: ChatRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Process a user question against the full knowledge base
-    and return a contextual answer.
-    """
-
     try:
-        print("========================================")
-        print("CHAT /ASK REQUEST")
-        print("Question:", request.question)
-        print("Session ID:", request.session_id)
-        print("========================================")
+        print("========================================", flush=True)
+        print("🔥 /api/ask STARTED", flush=True)
+        print("QUESTION:", request.question, flush=True)
+        print("SESSION:", request.session_id, flush=True)
+        print("========================================", flush=True)
+
+        print("🔥 BEFORE RAG", flush=True)
 
         result = rag_service.query_knowledge_base(
             db=db,
@@ -69,33 +66,33 @@ async def ask_question(
             page_context=request.page_context
         )
 
-        print("RAG RESULT SUCCESS")
+        print("🔥 AFTER RAG", flush=True)
+        print("RESULT TYPE:", type(result).__name__, flush=True)
 
         return ChatResponse(
             response_id=result["response_id"],
             answer=result["answer"],
-            sources=result["sources"],
+            sources=result.get("sources", []),
             session_id=result.get("session_id"),
             timestamp=result.get("timestamp", time.time())
         )
 
     except Exception as e:
-        print("========================================")
-        print("🔥 ERROR IN /ASK")
-        print("ERROR TYPE:", type(e).__name__)
-        print("ERROR:", str(e))
-        print("TRACEBACK:")
+        print("========================================", flush=True)
+        print("🔥🔥 ERROR /api/ask", flush=True)
+        print("ERROR TYPE:", type(e).__name__, flush=True)
+        print("ERROR:", repr(e), flush=True)
         traceback.print_exc()
-        print("========================================")
+        print("========================================", flush=True)
 
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing question: {str(e)}"
+            detail=f"{type(e).__name__}: {str(e)}"
         )
 
 
 # ============================================================
-# ASK WITH SELECTED TEXT
+# /ASK-SELECTED
 # ============================================================
 
 @router.post("/ask-selected", response_model=ChatResponse)
@@ -103,18 +100,18 @@ async def ask_with_selected_text(
     request: ChatSelectionRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Process a question based on user-selected text
-    from the current page.
-    """
-
     try:
-        print("========================================")
-        print("CHAT /ASK-SELECTED REQUEST")
-        print("Question:", request.question)
-        print("Selected text length:", len(request.selected_text))
-        print("Session ID:", request.session_id)
-        print("========================================")
+        print("========================================", flush=True)
+        print("🔥 /api/ask-selected STARTED", flush=True)
+        print("QUESTION:", request.question, flush=True)
+        print(
+            "SELECTED TEXT LENGTH:",
+            len(request.selected_text),
+            flush=True
+        )
+        print("========================================", flush=True)
+
+        print("🔥 BEFORE SELECTED RAG", flush=True)
 
         result = rag_service.query_selected_text_only(
             db=db,
@@ -124,33 +121,32 @@ async def ask_with_selected_text(
             page_context=request.page_context
         )
 
-        print("SELECTED TEXT RAG RESULT SUCCESS")
+        print("🔥 AFTER SELECTED RAG", flush=True)
 
         return ChatResponse(
             response_id=result["response_id"],
             answer=result["answer"],
-            sources=result["sources"],
+            sources=result.get("sources", []),
             session_id=result.get("session_id"),
             timestamp=result.get("timestamp", time.time())
         )
 
     except Exception as e:
-        print("========================================")
-        print("🔥 ERROR IN /ASK-SELECTED")
-        print("ERROR TYPE:", type(e).__name__)
-        print("ERROR:", str(e))
-        print("TRACEBACK:")
+        print("========================================", flush=True)
+        print("🔥🔥 ERROR /api/ask-selected", flush=True)
+        print("ERROR TYPE:", type(e).__name__, flush=True)
+        print("ERROR:", repr(e), flush=True)
         traceback.print_exc()
-        print("========================================")
+        print("========================================", flush=True)
 
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing question with selected text: {str(e)}"
+            detail=f"{type(e).__name__}: {str(e)}"
         )
 
 
 # ============================================================
-# LEGACY /CHAT ENDPOINT
+# LEGACY /CHAT
 # ============================================================
 
 @router.post("/chat", response_model=ChatResponse)
@@ -158,19 +154,15 @@ async def ask_question_legacy(
     request: ChatRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    LEGACY:
-    Process a user question against the full knowledge base
-    and return a contextual answer.
-    """
-
     try:
-        print("========================================")
-        print("🔥 LEGACY /CHAT REQUEST")
-        print("Question:", request.question)
-        print("Session ID:", request.session_id)
-        print("Page Context:", request.page_context)
-        print("========================================")
+        print("========================================", flush=True)
+        print("🔥🔥 /api/chat STARTED", flush=True)
+        print("QUESTION:", request.question, flush=True)
+        print("SESSION:", request.session_id, flush=True)
+        print("PAGE CONTEXT:", request.page_context, flush=True)
+        print("========================================", flush=True)
+
+        print("🔥 STEP 1: BEFORE RAG", flush=True)
 
         result = rag_service.query_knowledge_base(
             db=db,
@@ -179,33 +171,47 @@ async def ask_question_legacy(
             page_context=request.page_context
         )
 
-        print("LEGACY /CHAT RAG RESULT SUCCESS")
+        print("🔥 STEP 2: AFTER RAG", flush=True)
+        print("RESULT TYPE:", type(result).__name__, flush=True)
 
-        return ChatResponse(
+        if not isinstance(result, dict):
+            raise ValueError(
+                f"RAG service returned {type(result).__name__}, expected dict"
+            )
+
+        print("🔥 STEP 3: RESULT KEYS:", list(result.keys()), flush=True)
+
+        response = ChatResponse(
             response_id=result["response_id"],
             answer=result["answer"],
-            sources=result["sources"],
+            sources=result.get("sources", []),
             session_id=result.get("session_id"),
             timestamp=result.get("timestamp", time.time())
         )
 
+        print("🔥 STEP 4: RESPONSE CREATED", flush=True)
+
+        return response
+
     except Exception as e:
-        print("========================================")
-        print("🔥🔥🔥 ERROR IN LEGACY /CHAT")
-        print("ERROR TYPE:", type(e).__name__)
-        print("ERROR:", str(e))
-        print("TRACEBACK:")
+        print("========================================", flush=True)
+        print("🔥🔥🔥 /api/chat ERROR", flush=True)
+        print("ERROR TYPE:", type(e).__name__, flush=True)
+        print("ERROR:", repr(e), flush=True)
+        print("TRACEBACK BELOW:", flush=True)
+
         traceback.print_exc()
-        print("========================================")
+
+        print("========================================", flush=True)
 
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing question: {str(e)}"
+            detail=f"Error processing question: {type(e).__name__}: {str(e)}"
         )
 
 
 # ============================================================
-# LEGACY /CHAT/SELECTION ENDPOINT
+# LEGACY /CHAT/SELECTION
 # ============================================================
 
 @router.post("/chat/selection", response_model=ChatResponse)
@@ -213,18 +219,18 @@ async def ask_with_selected_text_legacy(
     request: ChatSelectionRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    LEGACY:
-    Process a question based on user-selected text only.
-    """
-
     try:
-        print("========================================")
-        print("LEGACY /CHAT/SELECTION REQUEST")
-        print("Question:", request.question)
-        print("Selected text length:", len(request.selected_text))
-        print("Session ID:", request.session_id)
-        print("========================================")
+        print("========================================", flush=True)
+        print("🔥 /api/chat/selection STARTED", flush=True)
+        print("QUESTION:", request.question, flush=True)
+        print(
+            "SELECTED TEXT LENGTH:",
+            len(request.selected_text),
+            flush=True
+        )
+        print("========================================", flush=True)
+
+        print("🔥 BEFORE SELECTED RAG", flush=True)
 
         result = rag_service.query_selected_text_only(
             db=db,
@@ -234,26 +240,36 @@ async def ask_with_selected_text_legacy(
             page_context=request.page_context
         )
 
-        print("LEGACY SELECTION RAG RESULT SUCCESS")
+        print("🔥 AFTER SELECTED RAG", flush=True)
+
+        if not isinstance(result, dict):
+            raise ValueError(
+                f"RAG service returned {type(result).__name__}, expected dict"
+            )
 
         return ChatResponse(
             response_id=result["response_id"],
             answer=result["answer"],
-            sources=result["sources"],
+            sources=result.get("sources", []),
             session_id=result.get("session_id"),
             timestamp=result.get("timestamp", time.time())
         )
 
     except Exception as e:
-        print("========================================")
-        print("🔥 ERROR IN LEGACY /CHAT/SELECTION")
-        print("ERROR TYPE:", type(e).__name__)
-        print("ERROR:", str(e))
-        print("TRACEBACK:")
+        print("========================================", flush=True)
+        print("🔥🔥 ERROR /api/chat/selection", flush=True)
+        print("ERROR TYPE:", type(e).__name__, flush=True)
+        print("ERROR:", repr(e), flush=True)
+        print("TRACEBACK BELOW:", flush=True)
+
         traceback.print_exc()
-        print("========================================")
+
+        print("========================================", flush=True)
 
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing question with selected text: {str(e)}"
+            detail=(
+                "Error processing selected text: "
+                f"{type(e).__name__}: {str(e)}"
+            )
         )
