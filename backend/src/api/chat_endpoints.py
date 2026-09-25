@@ -149,30 +149,14 @@ async def ask_with_selected_text(
 # LEGACY /CHAT
 # ============================================================
 
-@router.post("/chat")
+@router.post("/chat", response_model=ChatResponse)
 async def ask_question_legacy(
     request: ChatRequest,
     db: Session = Depends(get_db)
 ):
-    print("🔥🔥 /api/chat ENTERED", flush=True)
-
-    return {
-        "status": "success",
-        "message": "Chat endpoint is working",
-        "question": request.question,
-        "session_id": request.session_id,
-        "has_page_context": request.page_context is not None,
-        "timestamp": time.time()
-    }
     try:
-        print("========================================", flush=True)
-        print("🔥🔥 /api/chat STARTED", flush=True)
+        print("🔥 /api/chat ENTERED", flush=True)
         print("QUESTION:", request.question, flush=True)
-        print("SESSION:", request.session_id, flush=True)
-        print("PAGE CONTEXT:", request.page_context, flush=True)
-        print("========================================", flush=True)
-
-        print("🔥 STEP 1: BEFORE RAG", flush=True)
 
         result = rag_service.query_knowledge_base(
             db=db,
@@ -181,42 +165,25 @@ async def ask_question_legacy(
             page_context=request.page_context
         )
 
-        print("🔥 STEP 2: AFTER RAG", flush=True)
-        print("RESULT TYPE:", type(result).__name__, flush=True)
+        print("🔥 RAG COMPLETED", flush=True)
 
-        if not isinstance(result, dict):
-            raise ValueError(
-                f"RAG service returned {type(result).__name__}, expected dict"
-            )
-
-        print("🔥 STEP 3: RESULT KEYS:", list(result.keys()), flush=True)
-
-        response = ChatResponse(
+        return ChatResponse(
             response_id=result["response_id"],
             answer=result["answer"],
             sources=result.get("sources", []),
             session_id=result.get("session_id"),
-            timestamp=result.get("timestamp", time.time())
+            timestamp=time.time()
         )
 
-        print("🔥 STEP 4: RESPONSE CREATED", flush=True)
-
-        return response
-
     except Exception as e:
-        print("========================================", flush=True)
-        print("🔥🔥🔥 /api/chat ERROR", flush=True)
-        print("ERROR TYPE:", type(e).__name__, flush=True)
+        print("🔥🔥 CHAT ERROR", flush=True)
+        print("TYPE:", type(e).__name__, flush=True)
         print("ERROR:", repr(e), flush=True)
-        print("TRACEBACK BELOW:", flush=True)
-
         traceback.print_exc()
-
-        print("========================================", flush=True)
 
         raise HTTPException(
             status_code=500,
-            detail=f"Error processing question: {type(e).__name__}: {str(e)}"
+            detail=f"{type(e).__name__}: {str(e)}"
         )
 
 
